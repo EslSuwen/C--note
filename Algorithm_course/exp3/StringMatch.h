@@ -1,0 +1,81 @@
+/*
+ * @Coding: utf-8 \n
+ * @Despcription:  \n
+ * @Author: Suwen SP \n
+ * @LastEditors: Suwen SP\n
+ * @Date: 2019-04-04 08:10:58
+ * @LastEditTime: 2019-04-04 08:17:52
+ */
+#include <cstring>
+#include <iostream>
+using namespace std;
+void cal_next(char *str, int *next, int len)
+{
+    next[0] = -1; //next[0]初始化为-1，-1表示不存在相同的最大前缀和最大后缀
+    int k = -1;   //k初始化为-1
+    for (int q = 1; q <= len - 1; q++)
+    {
+        while (k > -1 && str[k + 1] != str[q]) //如果下一个不同，那么k就变成next[k]，注意next[k]是小于k的，无论k取任何值。
+        {
+            k = next[k]; //往前回溯
+        }
+        if (str[k + 1] == str[q]) //如果相同，k++
+        {
+            k = k + 1;
+        }
+        next[q] = k; //这个是把算的k的值（就是相同的最大前缀和最大后缀长）赋给next[q]
+    }
+}
+int KMP(char *str, int slen, char *ptr, int plen)
+{
+    int *next = new int[plen];
+    cal_next(ptr, next, plen); //计算next数组
+    int k = -1;
+    for (int i = 0; i < slen; i++)
+    {
+        while (k > -1 && ptr[k + 1] != str[i]) //ptr和str不匹配，且k>-1（表示ptr和str有部分匹配）
+            k = next[k];                       //往前回溯
+        if (ptr[k + 1] == str[i])
+            k = k + 1;
+        if (k == plen - 1) //说明k移动到ptr的最末端
+        {
+            //cout << "在位置" << i-plen+1<< endl;
+            //k = -1;//重新初始化，寻找下一个
+            //i = i - plen + 1;//i定位到该位置，外层for循环i++可以继续找下一个（这里默认存在两个匹配字符串可以部分重叠），感谢评论中同学指出错误。
+            return i - plen + 1; //返回相应的位置
+        }
+    }
+    return -1;
+}
+
+//朴素字符串匹配算法
+int index_force(char *s, char *t, int pos)
+{
+
+    int i = pos;
+    //判断pos是否合法
+    if (!s[i])
+        cout << "pos is illegal!" << endl;
+    int j = 0;
+    while (s[i] != '\0' && t[j] != '\0') //主串或者模式串遍历完成
+    {
+        if (s[i] == t[j]) //如果主串和模式串对应位置的值相等，则比较后面的字符
+        {
+            ++i;
+            ++j;
+        }
+        else //如果不相等，则模式串需要回朔到第一个字符，而主串则从下一个字符开始
+        {
+            i = i - j + 1;
+            j = 0;
+        }
+    }
+    if (t[j] == '\0') //如果循环是由于模式串遍历完了而结束的，说明找到了对应子串的位置
+    {
+        return i - j;
+    }
+    else //否则，主串不包含模式串
+    {
+        return 0;
+    }
+}
