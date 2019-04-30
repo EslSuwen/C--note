@@ -4,7 +4,7 @@
  * @Author: Suwen SP \n
  * @LastEditors: Suwen SP\n
  * @Date: 2019-04-18 08:01:46
- * @LastEditTime: 2019-04-18 16:46:29
+ * @LastEditTime: 2019-04-27 09:49:38
  */
 #ifndef _BINARY_TREE_CPP
 #define _BINARY_TREE_CPP
@@ -97,6 +97,22 @@ void BinaryTree<T>::PreOrderStack(void (*visit)(BinTreeNode<T> *p))
         {
             p = S.top();
             S.pop();
+        }
+    }
+}
+template <class T>
+void BinaryTree<T>::PrintBTree(BinTreeNode<T> *BT)
+{
+    if (BT != nullptr)
+    {
+        cout << BT->data;
+        if (BT->leftChild != nullptr || BT->rightChild != nullptr)
+        {
+            cout << "(";
+            PrintBTree(BT->leftChild);
+            cout << ",";
+            PrintBTree(BT->rightChild);
+            cout << ")";
         }
     }
 }
