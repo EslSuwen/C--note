@@ -10,6 +10,6 @@
 using namespace std;
 int main()
 {
-    cout << "鍚夋牸鏂煶榧撶敯鏃ュ浗";
+    cout << "吉格斯石鼓田日国";
     return 0;
 }
