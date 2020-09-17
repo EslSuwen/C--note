@@ -10,8 +10,7 @@
 using namespace std;
 int main(int argc, char* argv[])
 {
-    int i;
-    for(i = 0; i<argc; i++)
-        cout << argv[i] << endl;
+    for(int i = 10; i>0; i--)
+        cout << i << endl;
     return 0;
 }

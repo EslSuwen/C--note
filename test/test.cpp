@@ -12,16 +12,14 @@ using namespace std;
 
 int main()
 {
-    cout << "hello world" << endl;
-    string a;
-    int n;
-    cin >> n;
-    char t[2];
-    for (int i = 1; i <= n; i++)
+    int a,b,t,i=0;
+    cin>>a>>b;
+    while(cin >> t)
     {
-
-        t[0] = i;
+        i++;
+        if(i==b) continue;
+        cout<<t<<" ";
+        if(i==a) break;
     }
-    cout << t[0] << endl;
     return 0;
 }
