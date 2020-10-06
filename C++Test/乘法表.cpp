@@ -1,6 +1,8 @@
-#include<iostream.h>
-#include<iomanip.h>
-void main()
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
 {
 	 int i,j;
 	 char ch;

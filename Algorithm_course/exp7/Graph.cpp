@@ -6,11 +6,11 @@
  * @LastEditors: Suwen SP\n
  * @LastEditTime: 2019-05-19 09:32:00
  */
-/* 1.¸ø³öÍ¼µÄÁÚ½Ó¾ØÕóºÍÁÚ½Ó±íµÄ»¥Ïà×ª»»Ëã·¨¡£
+/* 1.ç»™å‡ºå›¾çš„é‚»æ¥çŸ©é˜µå’Œé‚»æ¥è¡¨çš„äº’ç›¸è½¬æ¢ç®—æ³•ã€‚
 
-2. ·Ö±ğ²ÉÓÃÁÚ½Ó¾ØÕóºÍÁÚ½Ó±í´æ´¢Í¼£¬¸ø³öÍ¼µÄÉî¶ÈºÍ¹ã¶ÈÓÅÏÈ±éÀúËã·¨(·Çµİ¹é)
+2. åˆ†åˆ«é‡‡ç”¨é‚»æ¥çŸ©é˜µå’Œé‚»æ¥è¡¨å­˜å‚¨å›¾ï¼Œç»™å‡ºå›¾çš„æ·±åº¦å’Œå¹¿åº¦ä¼˜å…ˆéå†ç®—æ³•(éé€’å½’)
 
- 3 ¸ø³öAOVÍøµÄÍØÆËÅÅĞò */
+ 3 ç»™å‡ºAOVç½‘çš„æ‹“æ‰‘æ’åº */
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -19,57 +19,57 @@ using namespace std;
 const int MAXVEX = 100;
 typedef char VertexType;
 typedef int EdgeType;
-//ÁÚ½Ó¾ØÕó
+//é‚»æ¥çŸ©é˜µ
 typedef struct
 {
 	int num;
 	EdgeType weight;
-} ElemType; //¾ØÕóÖĞÔªËØµÄÀàĞÍ
+} ElemType; //çŸ©é˜µä¸­å…ƒç´ çš„ç±»å‹
 
 typedef struct
 {
-	int edges[MAXVEX][MAXVEX]; //ÁÚ½Ó¾ØÕó
+	int edges[MAXVEX][MAXVEX]; //é‚»æ¥çŸ©é˜µ
 	int numNodes, numEdges;
-	ElemType vex[MAXVEX]; //´æ·Å¶¥µãĞÅÏ¢
+	ElemType vex[MAXVEX]; //å­˜æ”¾é¡¶ç‚¹ä¿¡æ¯
 } GraphAdjArray;
 
-//ÁÚ½Ó±í
-//±ß±í½áµã
+//é‚»æ¥è¡¨
+//è¾¹è¡¨ç»“ç‚¹
 typedef struct EdgeNode
 {
 	int adjvex;
 	EdgeType weight;
 	struct EdgeNode *next;
 } EdgeNode;
-//¶¥µã±í½áµã
+//é¡¶ç‚¹è¡¨ç»“ç‚¹
 typedef struct VextexNode
 {
 	VertexType data;
-	bool visited; //±íÊ¾¸Ã½ÚµãÊÇ·ñ±»·ÃÎÊ
+	bool visited; //è¡¨ç¤ºè¯¥èŠ‚ç‚¹æ˜¯å¦è¢«è®¿é—®
 	EdgeNode *firstedge;
 } VetexNode, AdjList[MAXVEX];
-//ÁÚ½Ó±í
+//é‚»æ¥è¡¨
 typedef struct
 {
 	AdjList adjList;
 	int numNodes, numEdges;
 } GraphAdjList;
 
-//´´½¨ÁÚ½ÓÁĞ±í
-//´«Èë ±ß½çµãbegin ±ß½çµãend È¨ÖØ
+//åˆ›å»ºé‚»æ¥åˆ—è¡¨
+//ä¼ å…¥ è¾¹ç•Œç‚¹begin è¾¹ç•Œç‚¹end æƒé‡
 void CreateALGraph(GraphAdjList *Gp, int arr[][3], int numNodes, int numEdges)
 {
 	int i;
 	EdgeNode *pe;
 	Gp->numNodes = numNodes;
 	Gp->numEdges = numEdges;
-	//ÊäÈë¶¥µãĞÅÏ¢£¬½«±ß±íÖÃÎª0
+	//è¾“å…¥é¡¶ç‚¹ä¿¡æ¯ï¼Œå°†è¾¹è¡¨ç½®ä¸º0
 	for (i = 0; i < Gp->numNodes; ++i)
 	{
 		Gp->adjList[i].data = i;
 		Gp->adjList[i].firstedge = NULL;
 	}
-	//½¨Á¢±ß±í
+	//å»ºç«‹è¾¹è¡¨
 	for (i = 0; i < Gp->numEdges; ++i)
 	{
 		pe = (EdgeNode *)malloc(sizeof(EdgeNode));
@@ -77,7 +77,7 @@ void CreateALGraph(GraphAdjList *Gp, int arr[][3], int numNodes, int numEdges)
 		pe->weight = arr[i][2];
 		pe->next = Gp->adjList[arr[i][0]].firstedge;
 		Gp->adjList[arr[i][0]].firstedge = pe;
-		//ÖØ¸´ÉÏÃæµÄ²Ù×÷
+		//é‡å¤ä¸Šé¢çš„æ“ä½œ
 		pe = (EdgeNode *)malloc(sizeof(EdgeNode));
 		pe->adjvex = arr[i][0];
 		pe->weight = arr[i][2];
@@ -86,13 +86,13 @@ void CreateALGraph(GraphAdjList *Gp, int arr[][3], int numNodes, int numEdges)
 	}
 }
 
-//´´½¨ÁÚ½Ó¾ØÕó
+//åˆ›å»ºé‚»æ¥çŸ©é˜µ
 void CreateALArray(GraphAdjArray *Ga, int arr[][18], int numNodes, int numEdges)
 {
 	Ga->numEdges = numEdges;
 	Ga->numNodes = numNodes;
 	int i, j;
-	//Ö±½Ó½«ÁÚ½Ó¾ØÕóĞ´µ½edgesÖĞ£¬Ã»ÓĞÓÃµ½ElemType vex[MAXVEX]
+	//ç›´æ¥å°†é‚»æ¥çŸ©é˜µå†™åˆ°edgesä¸­ï¼Œæ²¡æœ‰ç”¨åˆ°ElemType vex[MAXVEX]
 	for (i = 0; i < Ga->numNodes; ++i)
 	{
 		for (j = 0; j < Ga->numNodes; ++j)
@@ -100,7 +100,7 @@ void CreateALArray(GraphAdjArray *Ga, int arr[][18], int numNodes, int numEdges)
 	}
 }
 
-//Êä³öÁÚ½Ó±í
+//è¾“å‡ºé‚»æ¥è¡¨
 void DispAdjList(GraphAdjList *Gp)
 {
 	int i;
@@ -118,7 +118,7 @@ void DispAdjList(GraphAdjList *Gp)
 	}
 }
 
-//Êä³öÁÚ½Ó¾ØÕó
+//è¾“å‡ºé‚»æ¥çŸ©é˜µ
 void DispAdjArray(GraphAdjArray *Ga)
 {
 	int i, j;
@@ -132,12 +132,12 @@ void DispAdjArray(GraphAdjArray *Ga)
 	}
 }
 
-//ÁÚ½Ó¾ØÕó×ª»¯³ÉÁÚ½Ó±í
+//é‚»æ¥çŸ©é˜µè½¬åŒ–æˆé‚»æ¥è¡¨
 void ArratToList(GraphAdjArray *Ga, GraphAdjList *GatoGp)
 {
 	GatoGp->numEdges = Ga->numEdges;
 	GatoGp->numNodes = Ga->numNodes;
-	//ÊäÈë¶¥µãĞÅÏ¢£¬½«±ß±íÖÃÎª0
+	//è¾“å…¥é¡¶ç‚¹ä¿¡æ¯ï¼Œå°†è¾¹è¡¨ç½®ä¸º0
 	int i, j;
 	for (i = 0; i < GatoGp->numNodes; ++i)
 	{
@@ -161,14 +161,14 @@ void ArratToList(GraphAdjArray *Ga, GraphAdjList *GatoGp)
 		}
 	}
 }
-//ÁÚ½Ó±í×ª»¯³ÉÁÚ½Ó¾ØÕó
+//é‚»æ¥è¡¨è½¬åŒ–æˆé‚»æ¥çŸ©é˜µ
 void ListToArray(GraphAdjList *Gp, GraphAdjArray *GptoGa)
 {
 	EdgeNode *pe;
 	GptoGa->numEdges = Gp->numEdges;
 	GptoGa->numNodes = Gp->numNodes;
 	int i, j;
-	//ÏÈ½«ÁÚ½Ó¾ØÕóµÄÔªËØÈ«²¿ÖÃ0
+	//å…ˆå°†é‚»æ¥çŸ©é˜µçš„å…ƒç´ å…¨éƒ¨ç½®0
 	for (i = 0; i < GptoGa->numNodes; ++i)
 	{
 		for (j = 0; j < GptoGa->numNodes; ++j)
@@ -184,7 +184,7 @@ void ListToArray(GraphAdjList *Gp, GraphAdjArray *GptoGa)
 		}
 	}
 }
-//³õÊ¼»¯½ÚµãµÄ·ÃÎÊ
+//åˆå§‹åŒ–èŠ‚ç‚¹çš„è®¿é—®
 void initVisted(GraphAdjList *Gp)
 {
 	for (int i = 0; i < Gp->numNodes; ++i)
@@ -193,17 +193,17 @@ void initVisted(GraphAdjList *Gp)
 	}
 }
 
-//ÁÚ½Ó±íµÄÉî¶ÈËÑË÷±éÀú,½«½á¹û±£´æµ½vectorÖĞ
+//é‚»æ¥è¡¨çš„æ·±åº¦æœç´¢éå†,å°†ç»“æœä¿å­˜åˆ°vectorä¸­
 void DFS(GraphAdjList *Gp, int start, vector<int> *vec)
 {
 	vec->push_back(start);
-	cout << start << "¡¡";
+	cout << start << "ã€€";
 	Gp->adjList[start].visited = 1;
 	EdgeNode *pe;
 	pe = (EdgeNode *)malloc(sizeof(EdgeNode));
-	pe = Gp->adjList[start].firstedge; //peÖ¸Ïò±íÍ·
+	pe = Gp->adjList[start].firstedge; //peæŒ‡å‘è¡¨å¤´
 	while (pe != NULL)
-	{ //±éÀúGp->adjList[start]µÄ±ß±í£¬ÕÒµ½Î´±éÀúµÄ
+	{ //éå†Gp->adjList[start]çš„è¾¹è¡¨ï¼Œæ‰¾åˆ°æœªéå†çš„
 		if (!Gp->adjList[pe->adjvex].visited)
 		{
 			DFS(Gp, pe->adjvex, vec);
@@ -211,7 +211,7 @@ void DFS(GraphAdjList *Gp, int start, vector<int> *vec)
 		pe = pe->next;
 	}
 }
-//ÁÚ½Ó±íµÄ¹ã¶ÈËÑË÷
+//é‚»æ¥è¡¨çš„å¹¿åº¦æœç´¢
 void BFS(GraphAdjList *Gp, int start, vector<int> *vec)
 {
 	queue<int> q;
@@ -224,7 +224,7 @@ void BFS(GraphAdjList *Gp, int start, vector<int> *vec)
 		vec->push_back(current);
 		EdgeNode *pe;
 		pe = (EdgeNode *)malloc(sizeof(EdgeNode));
-		pe = Gp->adjList[current].firstedge; //peÖ¸ÏòÍ·½áµã£¬±éÀú±ß±í
+		pe = Gp->adjList[current].firstedge; //peæŒ‡å‘å¤´ç»“ç‚¹ï¼Œéå†è¾¹è¡¨
 		while ((pe != NULL) && (!Gp->adjList[pe->adjvex].visited))
 		{
 			q.push(pe->adjvex);
@@ -280,7 +280,7 @@ int main()
 	cout << "***********Gp**************" << endl;
 	DispAdjList(&Gp);
 
-	//Êä³öÁÚ½Ó±í
+	//è¾“å‡ºé‚»æ¥è¡¨
 	GraphAdjArray Ga;
 	int arr2[18][18] = {{0, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						{3, 0, 1, 0, 1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -304,20 +304,20 @@ int main()
 	DispAdjArray(&Ga);
 	GraphAdjList GatoGp;
 	ArratToList(&Ga, &GatoGp);
-	cout << "********ÁÚ½ÓÊı×é×ª»¯ÎªÁÚ½Ó±íµÄ½á¹û***********" << endl;
+	cout << "********é‚»æ¥æ•°ç»„è½¬åŒ–ä¸ºé‚»æ¥è¡¨çš„ç»“æœ***********" << endl;
 	DispAdjList(&GatoGp);
 	GraphAdjArray GptoGa;
 	ListToArray(&GatoGp, &GptoGa);
-	cout << "********ÁÚ½Ó±í×ª»¯ÎªÁÚ½Ó¾ØÕóµÄ½á¹û***********" << endl;
+	cout << "********é‚»æ¥è¡¨è½¬åŒ–ä¸ºé‚»æ¥çŸ©é˜µçš„ç»“æœ***********" << endl;
 	DispAdjArray(&GptoGa);
 
-	//¸ù¾İGp Éî¶È±éÀú
+	//æ ¹æ®Gp æ·±åº¦éå†
 	vector<int> vec1 = {};
 	initVisted(&Gp);
-	cout << "Êä³öÉî¶È±éÀúµÄ½á¹û" << endl;
+	cout << "è¾“å‡ºæ·±åº¦éå†çš„ç»“æœ" << endl;
 	DFS(&Gp, 0, &vec1);
-	//¸ù¾İGp ¹ã¶È±éÀú
-	cout << "Êä³ö¹ã¶È±éÀúµÄ½á¹û" << endl;
+	//æ ¹æ®Gp å¹¿åº¦éå†
+	cout << "è¾“å‡ºå¹¿åº¦éå†çš„ç»“æœ" << endl;
 	vector<int> vec2 = {};
 	initVisted(&Gp);
 	BFS(&Gp, 0, &vec2);
